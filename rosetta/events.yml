@@ -778,6 +778,8 @@ games:
         parameters:
         - name: schema
           type: table<string, umbrella.DBSchemaEntry[]>
+      deprecated: true
+      removed: 42.13.0
     - name: OnGetTableResult
       notes: Triggered when receiving a database table query result from the server.
       context:
@@ -791,6 +793,8 @@ games:
           type: integer
         - name: tableName
           type: string
+      deprecated: true
+      removed: 42.13.0
     - name: OnGridBurnt
       notes: Triggered when a square is burned by fire.
       callback:
@@ -1514,7 +1518,10 @@ games:
         - name: username
           type: string
         - name: logs
-          type: ArrayList
+          type: ArrayList<UserLog>
+        - name: suspiciousActivity
+          type: table<string, string>
+          notes: Key is name of anticheat, value is number of times triggered (as a string for some reason).
     - name: OnRefreshInventoryWindowContainers
       notes: Triggered when the available containers in the inventory UI change.
       context:
@@ -1660,6 +1667,8 @@ games:
         singleplayer: false
       callback:
         parameters: []
+      deprecated: true
+      removed: 42.13.0
     - name: OnServerWorkshopItems
       notes: Triggered when receiving an update about the server's Steam Workshop
         items while connecting. Has a very variable signature depending on the type.
@@ -2332,12 +2341,16 @@ games:
           type: IsoGridSquare
     - name: OnQRReceived
       callback:
-        parameters: []
-      deprecated: true
+        parameters:
+          - name: message
+            type: string
+            # TODO: unsure of contents
+      context:
+        client: true
+        singleplayer: false
     - name: OnGoogleAuthRequest
       callback:
         parameters: []
-      deprecated: true
     - name: OnMouseWheel
       callback:
         parameters:
@@ -2386,11 +2399,9 @@ games:
     - name: RefreshCheats
       callback:
         parameters: []
-      deprecated: true
     - name: OnWarUpdate
       callback:
         parameters: []
-      deprecated: true
     - name: OnAlertMessage
       notes: See OnAddMessage
       callback:
@@ -2403,8 +2414,12 @@ games:
           notes: The ID of the tab the message was added to.
     - name: OnFishingActionMPUpdate
       callback:
-        parameters: []
-      deprecated: true
+        parameters:
+          - name: data
+            type: table
+            # TODO: contents?
+      context:
+        singleplayer: false
     - name: OnSourceWindowFileReload
       notes: Triggered when a file is reloaded from the debug source viewer.
       callback:
@@ -2441,15 +2456,12 @@ games:
     - name: OnRolesReceived
       callback:
         parameters: []
-      deprecated: true
     - name: OnNetworkUsersReceived
       callback:
         parameters: []
-      deprecated: true
     - name: OnServerCustomizationDataReceived
       callback:
         parameters: []
-      deprecated: true
     - name: OnDeadBodySpawn
       notes: Triggered when spawning a dead body.
       callback:
@@ -2463,9 +2475,7 @@ games:
         - name: player
           type: IsoPlayer
         - name: tracks
-          type: ArrayList<AnimalTracks>
-      deprecated: true
-      removed: 42.10.0
+          type: AnimalTracks
     - name: OnItemFound
       callback:
         parameters:
@@ -2534,5 +2544,17 @@ games:
         server: false
         singleplayer: false
     - name: ViewBannedSteamIDs
+      notes: Triggered when receving the response to a request from getBannedSteamIDs().
+      callback:
+        parameters:
+        - name: result
+          type: ArrayList<DBBannedSteamID>
+          notes: List of banned steam ids.
+    - name: OnDesignationZoneUpdatedNetwork
+      notes: Triggered when a designation zone is removed by the server.
       callback:
         parameters: []
+      context:
+        singleplayer: false
+        server: false
+      added: 42.13.0
