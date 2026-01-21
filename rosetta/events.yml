@@ -1269,9 +1269,7 @@ games:
           type: number
           notes: The damage that was taken.
     - name: OnPlayerMove
-      notes: Triggered during each local player's update if they are walking.
-      context:
-        server: false
+      notes: Triggered during a player's update if they are walking.
       callback:
         parameters:
         - name: character
