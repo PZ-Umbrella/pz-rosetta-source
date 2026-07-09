@@ -84,9 +84,9 @@ games:
       callback:
         parameters: []
     - name: LevelPerk
-      notes: Triggered after a local character gains or loses a perk level.
+      notes: Triggered after a character gains or loses a perk level.
       context:
-        server: false
+        client: false
       callback:
         parameters:
         - name: character
