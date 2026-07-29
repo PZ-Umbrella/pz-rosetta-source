@@ -1972,7 +1972,7 @@ games:
           type: number
           notes: The amount of fluid the object had before the change.
     - name: OnWeaponHitCharacter
-      notes: Triggered when a non-zombie character is hit by an attack from a local
+      notes: Triggered when a character, zombie or player, is hit by an attack from a local
         player.
       context:
         server: false
