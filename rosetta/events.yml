@@ -669,7 +669,7 @@ games:
           type: string
           notes: The type of the container that was filled.
         - name: container
-          type: ItemContainer | ItemPickerContainer
+          type: ItemContainer | ItemPickerJava.ItemPickerContainer
           notes: The container that was filled. An ItemPickerContainer is sometimes
             passed when a sub-container is spawned and filled, and is probably a bug.
     - name: OnFillInventoryObjectContextMenu
