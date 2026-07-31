@@ -683,6 +683,21 @@ games:
           type: ItemContainer | ItemPickerJava.ItemPickerContainer
           notes: The container that was filled. An ItemPickerContainer is sometimes
             passed when a sub-container is spawned and filled, and is probably a bug.
+    - name: OnFillInventoryContextMenuNoItems
+      notes: Triggered after the context menu for no items has been filled.
+      context:
+        server: false
+      callback:
+        parameters:
+        - name: playerIndex
+          type: integer
+          notes: The index of the player whose context menu has been filled.
+        - name: context
+          type: ISContextMenu
+          notes: The context menu that was filled.
+        - name: isLoot
+          type: boolean
+          notes: Whether the context menu was filled for a loot inventory window.
     - name: OnFillInventoryObjectContextMenu
       notes: Triggered after the context menu for an inventory item is filled.
       context:
@@ -736,6 +751,38 @@ games:
           type: boolean
           notes: Whether the context menu was filled to test for interactive objects
             on the square. If true, the context menu will not actually be displayed.
+    - name: OnForagePool
+      notes: Triggered when a foraging pool is received from the server.
+      context:
+        server: false
+      callback:
+        parameters:
+        - name: player
+          type: IsoPlayer
+        - name: zoneId
+          type: string
+        - name: icons
+          type: table<string, umbrella.Foraging.PoolRecord>
+    - name: OnForageRequestZone
+      notes: Triggered when a request from the client is received to send forage pools.
+      context:
+        client: false
+      callback:
+        parameters:
+        - name: player
+          type: IsoPlayer
+        - name: focus
+          type: string
+    - name: OnForageSpot
+      notes: Triggered on the server when a client sends that they've spotted a foraging icon.
+      context:
+        client: false
+      callback:
+        parameters:
+        - name: player
+          type: IsoPlayer
+        - name: iconID
+          type: string
     - name: OnGameBoot
       notes: 'Triggered after the game finishes starting up. Note: For clients, lua
         files in lua/server/ will not have ran by the time this event is triggered,
@@ -934,6 +981,16 @@ games:
         - name: joypadId
           type: integer
           notes: ID of the joypad.
+    - name: OnJoypadDebugRenderUIOptionSet
+      notes: Triggered when rendering controller debug UI.
+      context:
+        server: false
+      callback:
+        parameters:
+        - name: debugDrawUI
+          type: boolean
+        - name: debugDrawNavigation
+          type: boolean
     - name: OnJoypadReactivate
       notes: Triggered after a controller has been connected.
       context:
@@ -1385,6 +1442,22 @@ games:
           notes: The items that were selected to fill the context menu. If only full
             stacks are selected, a table of ContextMenuItemStacks is passed. Otherwise
             it is a table of InventoryItems.
+    - name: OnPreFillInventoryContextMenuNoItems
+      notes: Triggered when the context menu for no items is created,
+        before it is filled.
+      context:
+        server: false
+      callback:
+        parameters:
+        - name: playerIndex
+          type: integer
+          notes: The index of the player whose context menu has been created.
+        - name: context
+          type: ISContextMenu
+          notes: The context menu that was created.
+        - name: isLoot
+          type: boolean
+          notes: Whether the context menu was created for a loot inventory window.
     - name: OnPreFillWorldObjectContextMenu
       notes: Triggered after the world context menu is created, before it is filled.
       context:
@@ -2147,6 +2220,22 @@ games:
         - name: zombie
           type: IsoZombie
           notes: The zombie being updated.
+    - name: OptionControllerButtonStyleChanged
+      notes: Triggered when the controller button style option is changed.
+      context:
+        server: false
+      callback:
+        parameters:
+        - name: newOption
+          type: string
+    - name: OptionGamepadBindingPresetChanged
+      notes: Triggered when the gamepad binding preset option is changed.
+      context:
+        server: false
+      callback:
+        parameters:
+        - name: newOption
+          type: string
     - name: preAddCatDefs
       notes: Triggered before the foraging system processes item category definitions.
       callback:
