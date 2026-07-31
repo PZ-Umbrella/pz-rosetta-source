@@ -37,6 +37,12 @@ games:
         singleplayer: false
       callback:
         parameters:
+        - name: target
+          type: IsoPlayer
+          notes: Player who accepted the trade.
+        - name: requester
+          type: IsoPlayer
+          notes: Player who requested the trade.
         - name: accepted
           type: boolean
           notes: Whether the trade was accepted.
@@ -334,6 +340,11 @@ games:
         parameters:
         - name: message
           type: string
+          note: Message describing the error.
+        - name: detail
+          type: string | nil
+          note: Additional detail about the error. This is currently only provided for
+            workshop errors.
     - name: OnConnected
       notes: Triggered after successfully connecting to a server on the main menu,
         before character creation begins.
@@ -838,7 +849,7 @@ games:
           notes: The weather stage that was created.
         - name: strength
           type: number
-          # TODO: what is this?
+          notes: The intensity of the weather stage.
     - name: OnInitRecordedMedia
       notes: Triggered when RecordedMedia is initialised.
       callback:
@@ -1263,7 +1274,7 @@ games:
         - name: damageType
           type: '"POISON" | "HUNGRY" | "SICK" | "BLEEDING" | "THIRST" | "HEAVYLOAD"
             | "INFECTION" | "LOWWEIGHT" | "FALLDOWN" | "WEAPONHIT" | "CARHITDAMAGE"
-            | "CARCRASHDAMAGE"'
+            | "CARCRASHDAMAGE" | "FIRE"'
           notes: The type of damage the character took.
         - name: damage
           type: number
@@ -1518,7 +1529,7 @@ games:
         - name: logs
           type: ArrayList<UserLog>
         - name: suspiciousActivity
-          type: table<string, string>
+          type: table<string, string> | nil
           notes: Key is name of anticheat, value is number of times triggered (as a string for some reason).
     - name: OnRefreshInventoryWindowContainers
       notes: Triggered when the available containers in the inventory UI change.
@@ -1612,6 +1623,8 @@ games:
           type: ArrayList<String>
         - name: steamIDs
           type: ArrayList<String>
+        - name: pingValues
+          type: ArrayList<number>
     - name: OnSeeNewRoom
       notes: Triggered when a room becomes visible for the first time.
       callback:
@@ -1678,8 +1691,8 @@ games:
         - name: type
           type: string
         - name: items
-          type: ArrayList<String> | ArrayList<SteamUGCDetails> | string | integer
-            | nil
+          type: "ArrayList<String> | ArrayList<SteamUGCDetails> | string | integer
+            | nil"
         - name: error
           type: string | integer | nil
         - name: maxSize
@@ -1708,7 +1721,7 @@ games:
       callback:
         parameters:
         - name: regions
-          type: table
+          type: umbrella.SpawnRegion[]
     - name: OnSteamFriendStatusChanged
       notes: Triggered when the player has gained or lost a steam friend.
       context:
@@ -1739,12 +1752,13 @@ games:
         parameters:
         - name: address
           type: string
+          notes: IP address of the server.
         - name: port
           type: number
+          notes: Port of the server.
         - name: rules
-          type: table
+          type: umbrella.ServerProperties
           notes: 'Table of information about the server' 
-          # TODO: investigate what this actually is, class definition?'
     - name: OnSteamServerResponded
       notes: Triggered when receiving a server for the server list.
       context:
@@ -1944,10 +1958,6 @@ games:
         - name: vehicle
           type: BaseVehicle
           notes: The vehicle being used.
-        - name: pressedNotTapped
-          type: boolean
-          notes: True if the button was held for a short duration, false if the button
-            was tapped.
     - name: OnVehicleDamageTexture
       notes: Triggered when a vehicle part has become damaged enough to gain a damage
         overlay.
@@ -2179,10 +2189,15 @@ games:
         singleplayer: false
       callback:
         parameters:
-        - name: factionName
-          type: string
+        - name: faction
+          type: Faction
+          notes: Faction the client is being invited to.
         - name: hostUsername
           type: string
+          notes: Username of the faction leader.
+        - name: invitedUsername
+          type: string
+          notes: Username of the player being invited.
     - name: ReceiveSafehouseInvite
       notes: Triggered when the client receives a safehouse invite.
       context:
@@ -2190,10 +2205,15 @@ games:
         singleplayer: false
       callback:
         parameters:
-        - name: title
-          type: string
+        - name: safehouse
+          type: SafeHouse
+          notes: Safehouse the client is being invited to.
         - name: hostUsername
           type: string
+          notes: Username of the safehouse owner.
+        - name: invitedUsername
+          type: string
+          notes: Username of the player being invited.
     - name: RequestTrade
       notes: Triggered when the client receives a trade request.
       context:
@@ -2202,7 +2222,11 @@ games:
       callback:
         parameters:
         - name: requester
-          type: string
+          type: IsoPlayer
+          notes: Player who requested the trade.
+        - name: target
+          type: IsoPlayer
+          notes: Player receiving the trade request.
     - name: ReuseGridsquare
       notes: Triggered before a square is unloaded.
       callback:
@@ -2252,9 +2276,12 @@ games:
         singleplayer: false
       callback:
         parameters:
-        - name: player
+        - name: otherPlayer
           type: IsoPlayer
           notes: The player who added the item.
+        - name: player
+          type: IsoPlayer
+          notes: The local player who owns the trading UI.
         - name: item
           type: InventoryItem
           notes: The item that was added.
@@ -2265,9 +2292,12 @@ games:
         singleplayer: false
       callback:
         parameters:
-        - name: player
+        - name: otherPlayer
           type: IsoPlayer
           notes: The player who removed the item.
+        - name: player
+          type: IsoPlayer
+          notes: The local player who owns the trading UI.
         - name: id
           type: integer
           notes: The id of the removed item.
@@ -2278,9 +2308,12 @@ games:
         singleplayer: false
       callback:
         parameters:
-        - name: player
+        - name: otherPlayer
           type: IsoPlayer
           notes: The player changing the state.
+        - name: player
+          type: IsoPlayer
+          notes: The local player who owns the trading UI.
         - name: state
           type: integer
           notes: The new state.
@@ -2293,7 +2326,7 @@ games:
       callback:
         parameters:
         - name: tickets
-          type: ArrayList
+          type: ArrayList<DBTicket>
     - name: OnContextKey
       notes: Triggered while the player is holding the context key.
       context:
@@ -2342,7 +2375,7 @@ games:
         parameters:
           - name: message
             type: string
-            # TODO: unsure of contents
+            notes: Status message for registration of the Google auth key.
       context:
         client: true
         singleplayer: false
@@ -2481,7 +2514,7 @@ games:
           type: IsoPlayer
         - name: itemType
           type: string
-        - name: amount
+        - name: distanceTraveled
           type: number
     - name: SetDragItem
       context:
