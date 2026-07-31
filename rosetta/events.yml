@@ -16,6 +16,17 @@ games:
         - name: username
           type: string
           notes: Username of the faction leader.
+    - name: AcceptedMedicalCheck
+      notes: Triggered when the target accepted a medical check request.
+      context:
+        server: false
+        singleplayer: false
+      callback:
+        parameters:
+        - name: target
+          type: IsoPlayer
+        - name: requester
+          type: IsoPlayer
     - name: AcceptedSafehouseInvite
       notes: Triggered when a player accepts an invite to a safehouse.
       context:
@@ -2303,6 +2314,17 @@ games:
         - name: invitedUsername
           type: string
           notes: Username of the player being invited.
+    - name: RequestMedicalCheck
+      notes: Triggered when a requester asks for a medical check.
+      context:
+        server: false
+        singleplayer: false
+      callback:
+        parameters:
+        - name: target
+          type: IsoPlayer
+        - name: requester
+          type: IsoPlayer
     - name: RequestTrade
       notes: Triggered when the client receives a trade request.
       context:
