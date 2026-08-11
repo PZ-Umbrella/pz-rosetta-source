@@ -53,6 +53,10 @@ games:
         - name: item
           type: InventoryItem
           notes: Item to test.
+        - name: character
+          type: IsoGameCharacter | nil
+          notes: Character crafting the recipe. Recipes crafted by a workstation will
+            pass nil.
         notes: Determines whether an item can be used in the recipe.
         return:
         - type: boolean
