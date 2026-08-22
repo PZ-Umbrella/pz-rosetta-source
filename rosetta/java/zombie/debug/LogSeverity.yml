@@ -6,9 +6,9 @@ languages:
         LogSeverity:
           extends: java.lang.Enum<zombie.debug.LogSeverity>
           notes: |-
-            Used in the LuaDebugger to set the logging level of the different DebugType logs. Each enums have a specific order, and selecting a lower number in the order will allow other log severities with a higher order to be logged.
+            Used in the LuaDebugger to set the logging level of the different {@link zombie.debug.DebugType} logs. Each enums have a specific order, and selecting a lower number in the order will allow other log severities with a higher order to be logged.
 
-            Trace can be used to log everything, while Off turns off every logs.
+            {@link zombie.debug.LogSeverity#Trace} can be used to log everything, while {@link zombie.debug.LogSeverity#Off} turns off every logs.
           modifiers:
           - public
           - final
