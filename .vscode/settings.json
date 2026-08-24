@@ -1,5 +1,5 @@
 {
     "yaml.schemas": {
-        "https://raw.githubusercontent.com/Rosetta-Docs/Rosetta-Docs-Schema/refs/heads/1.1/1.1.json": "/rosetta/**"
+        "https://raw.githubusercontent.com/Rosetta-Docs/Rosetta-Docs-Schema/refs/heads/1.1/1.1.schema.json": "/rosetta/**"
     }
 }
