@@ -3775,8 +3775,8 @@ languages:
               type:
                 basic: String
                 full: java.lang.String
-              notes: Path, relative to the Lua cache root, to write to. '..' is not
-                allowed.
+              notes: |-
+                Path, relative to the Lua cache root, to write to. '..' is not allowed and only the following extensions are allowed: 'ini', 'cfg', 'txt', 'log', 'json'.
             - name: createIfNull
               type:
                 basic: boolean
@@ -4759,8 +4759,8 @@ languages:
               type:
                 basic: String
                 full: java.lang.String
-              notes: Path, relative to the mod's common folder, to write to. '..' is not
-                allowed.
+              notes: |-
+                Path, relative to the mod's common folder, to write to. '..' is not allowed and only the following extensions are allowed: 'ini', 'cfg', 'txt', 'log', 'json'.
             - name: createIfNull
               type:
                 basic: boolean
