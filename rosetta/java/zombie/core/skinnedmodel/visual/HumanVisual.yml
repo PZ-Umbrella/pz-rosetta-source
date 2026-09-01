@@ -901,6 +901,8 @@ languages:
                 basic: void
                 full: void
           - name: setSkinTextureName
+            note: |-
+              Update the skin texture of the human visual. The texture should be stored inside <code>media/textures/Body</code> and be referred to relative to this folder. For example <code>media/textures/Body/skin_texture.png</code> would be referred to as <code>skin_texture</code>.
             modifiers:
             - public
             parameters:
