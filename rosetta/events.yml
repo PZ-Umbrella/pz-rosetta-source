@@ -2605,6 +2605,8 @@ games:
       callback:
         parameters: []
     - name: OnDeadBodySpawn
+      context:
+        server: false
       notes: Triggered when spawning a dead body.
       callback:
         parameters:
