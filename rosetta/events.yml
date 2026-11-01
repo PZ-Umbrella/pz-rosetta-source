@@ -2621,6 +2621,7 @@ games:
         - name: tracks
           type: AnimalTracks
     - name: OnItemFound
+      notes: Fires when a player finds an item icon while in search mode.
       callback:
         parameters:
         - name: player
